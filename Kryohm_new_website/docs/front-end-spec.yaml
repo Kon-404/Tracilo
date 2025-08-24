@@ -1,0 +1,292 @@
+meta:
+  title: Kryohm Website – Front-End Specification
+  version: 0.1.0
+  owners:
+    - role: UX
+      name: Sally (UX Expert)
+    - role: Product/Stakeholder
+      name: Kryohm Team
+  date: 2025-08-24
+  sources:
+    - docs/brief.md
+    - docs/prd/index.md
+    - docs/prd/epic-1-foundation.md
+
+objectives:
+  - Build a credible B2B web presence showcasing three product lines: Sensors, Prepaid Metering, Shower Control.
+  - Optimize for qualified lead generation with clear CTAs: Book a Demo, Request Pricing, Talk to Sales.
+  - Deliver fast, accessible UX on modern browsers with robust SEO.
+
+scope:
+  in_scope_pages:
+    - "/" # Home
+    - "/products" # Hub
+    - "/products/sensors"
+    - "/products/prepaid-metering"
+    - "/products/shower-control"
+    - "/platform"
+    - "/projects" # list/grid
+    - "/projects/[slug]" # case study detail
+    - "/about"
+    - "/contact"
+  out_of_scope_mvp:
+    - e-commerce checkout
+    - user accounts/portal
+    - multi-language
+    - live chat
+    - advanced analytics dashboards
+
+technology:
+  framework: Next.js 14 (App Router), React 18, TypeScript
+  styling: Tailwind CSS
+  images: Next.js Image (WebP, responsive, lazy)
+  forms: React Hook Form + validation; submission via email service or CRM webhook
+  deployment: Vercel or Netlify
+  repository_structure:
+    - app/
+    - components/
+    - lib/
+    - public/
+
+information_architecture:
+  primary_nav:
+    - Home
+    - Products
+    - Platform
+    - Projects
+    - About
+    - Contact
+  products_children:
+    - Sensors
+    - Prepaid Metering
+    - Shower Control
+  breadcrumbs:
+    - Products > [Product]
+    - Projects > [Case Study]
+
+routes:
+  - path: "/"
+    purpose: Landing that explains value prop and funnels to CTAs and products
+    key_sections:
+      - hero
+      - product-teasers (3)
+      - credibility-band (logos/stats)
+      - company-overview
+      - featured-projects
+      - contact-cta
+    ctas:
+      - Book a Demo
+      - Request Pricing
+    seo:
+      title: IoT Sensing & Control Solutions | Kryohm
+      description: Reliable sensors, prepaid metering, and shower control for B2B.
+  - path: "/products"
+    purpose: Product hub introducing three lines and linking to details
+    key_sections: [intro, product-cards, comparison-highlights]
+  - path: "/products/sensors"
+    purpose: Sensors line overview, specs, use cases, CTA
+    key_sections: [hero, specs, use-cases, gallery, faq, cta]
+    ctas: [Request Pricing, Book a Demo]
+  - path: "/products/prepaid-metering"
+    purpose: Prepaid metering overview, benefits, implementation
+    key_sections: [hero, benefits, how-it-works, specs, faq, cta]
+    ctas: [Request Pricing, Book a Demo]
+  - path: "/products/shower-control"
+    purpose: Shower control solution overview for utilities/hospitality
+    key_sections: [hero, use-cases, components, specs, faq, cta]
+    ctas: [Request Pricing, Book a Demo]
+  - path: "/platform"
+    purpose: Platform capabilities, connectivity, security, APIs
+    key_sections: [overview, integrations, security, api, architecture-diagram]
+  - path: "/projects"
+    purpose: Case studies index with filters
+    key_sections: [filters, grid, pagination]
+  - path: "/projects/[slug]"
+    purpose: Case study detail with outcome metrics
+    key_sections: [hero, context, solution, results, gallery, related]
+  - path: "/about"
+    purpose: Company profile, team, certifications
+    key_sections: [mission, team, certifications, contact-snippet]
+  - path: "/contact"
+    purpose: Lead capture forms and contact info
+    key_sections: [contact-info, forms, map]
+
+components:
+  global:
+    - Header
+    - MainNav (desktop + mobile drawer)
+    - Footer
+    - Breadcrumbs
+    - AnnouncementBar (optional)
+  layout:
+    - Container
+    - Section
+    - Grid (12-col)
+    - PageHeader
+  ui:
+    - Button (variants: primary, secondary, ghost; sizes: sm, md, lg)
+    - Card
+    - Badge
+    - Tabs (optional)
+    - Accordion (for FAQs)
+    - Modal (for success messages)
+    - Tooltip
+    - Skeleton
+  content:
+    - Hero
+    - ProductCard
+    - Stat
+    - LogoCloud
+    - Testimonial
+    - FeatureList
+    - MediaGallery
+  forms:
+    - Input
+    - TextArea
+    - Select
+    - Checkbox
+    - RadioGroup
+    - FormField (label, help, error)
+    - ContactForm (Name, Email, Company, Phone, Product Interest, Message)
+    - DemoForm (ContactForm + Industry, Company Size, Timeline)
+    - PricingForm (ContactForm + Product Details/Scope)
+
+content_requirements:
+  assets:
+    - authentic product photos for sensors, meters, shower hardware
+    - logos for customers/certifications (if available)
+  copy_blocks:
+    - value proposition headline and subheadline (home hero)
+    - three product summaries (50–80 words each)
+    - platform overview (150–250 words)
+    - 3–6 case studies (context, solution, quantified results)
+    - company overview (100–200 words)
+    - privacy and consent statements for forms
+
+DesignSystem:
+  colors:
+    brand:
+      primary_teal: "#0F9BAA" # to confirm with brand
+      accent_azure: "#2DA4F2" # to confirm
+    neutrals:
+      50: "#F9FAFB"
+      100: "#F3F4F6"
+      200: "#E5E7EB"
+      300: "#D1D5DB"
+      600: "#4B5563"
+      800: "#1F2937"
+      900: "#111827"
+    states:
+      success: "#10B981"
+      warning: "#F59E0B"
+      error: "#EF4444"
+  typography:
+    font_family:
+      heading: Inter, ui-sans-serif, system-ui, -apple-system
+      body: Inter, ui-sans-serif, system-ui, -apple-system
+    scale:
+      h1: 44/52
+      h2: 32/40
+      h3: 24/32
+      body: 16/24
+      small: 14/20
+  spacing:
+    base_unit_px: 4
+    scale: [1, 2, 3, 4, 6, 8, 12]
+  radii:
+    sm: 6
+    md: 10
+    lg: 16
+  elevation:
+    sm: "0 1px 2px rgba(0,0,0,0.06)"
+    md: "0 4px 10px rgba(0,0,0,0.08)"
+
+accessibility:
+  standard: WCAG 2.1 AA
+  requirements:
+    - keyboard navigation for all interactive elements
+    - visible focus states (2px outline, 3:1 contrast)
+    - form labels and ARIA attributes on inputs
+    - color contrast >= 4.5:1 for text; 3:1 for large text/icons
+    - semantic headings and landmarks per page
+
+performance:
+  budgets:
+    lcp_ms: 2500
+    cls: 0.1
+    tbt_ms: 200
+  tactics:
+    - next/image with responsive sizes and lazy loading
+    - route-level code splitting; dynamic import for heavy modules
+    - minimize render-blocking CSS/JS; Tailwind JIT
+    - cache headers and CDN via platform
+
+seo:
+  meta:
+    base_title_suffix: |-
+      | Kryohm
+    og_image_strategy: per-page generated image with product/brand overlay
+  structured_data:
+    - type: Organization
+    - type: Product (for each product page)
+    - type: BreadcrumbList (deep pages)
+
+analytics:
+  tool: GA4 (baseline)
+  events:
+    - nav_click
+    - cta_click (book_demo, request_pricing)
+    - form_view (contact, demo, pricing)
+    - form_start
+    - form_submit
+    - form_error
+  consent:
+    approach: implied with banner; explicit if required by region
+
+forms:
+  validation:
+    name: required, min 2 chars
+    email: required, email format
+    company: required
+    phone: optional but formatted
+    product_interest: required (options: Sensors, Prepaid Metering, Shower Control, Platform)
+    message: required on contact; optional on demo/pricing
+    industry/company_size/timeline: required on demo form
+  submission:
+    method: email service (EmailJS or equivalent) or webhook to CRM
+    success_feedback: inline success state + optional modal; email acknowledgment optional
+
+states:
+  loading:
+    - skeletons for cards and images
+  empty:
+    - projects list shows helpful empty guidance
+  error:
+    - inline field errors; global error banner for network issues
+  success:
+    - friendly confirmation with next steps and contact details
+
+acceptance_criteria:
+  - Pages load < 3s on 4G; Lighthouse 95+ mobile and desktop
+  - All nav and forms keyboard accessible; a11y audit 95%+
+  - CTAs visible above the fold on home and product pages
+  - Forms validate with clear errors; submissions reach configured endpoint
+  - SEO basics implemented: titles, meta, open graph, structured data
+  - Case study list filters work and deep links are shareable
+
+risks:
+  - Content delays for product imagery and case studies
+  - Performance impact from heavy imagery
+  - Integration complexity with CRM/webhooks
+
+open_questions:
+  - Which CRM receives leads (e.g., HubSpot, Pipedrive)?
+  - Any compliance requirements for target regions (POPIA, GDPR)?
+  - Confirm brand color values and typography licensing
+  - Which analytics beyond GA4 (conversion tracking, pixels)?
+
+deliverables:
+  - Implemented Next.js 14 project with defined routes and components
+  - Tailwind config matching brand tokens
+  - Reusable form components with validation and submission hooks
+  - Documentation for content entry and image specs

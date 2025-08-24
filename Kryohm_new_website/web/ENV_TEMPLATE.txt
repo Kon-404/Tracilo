@@ -1,0 +1,14 @@
+# Copy to .env.local (frontend) and/or .env (server)
+
+# Google Analytics 4 ID (analytics loads only after consent)
+NEXT_PUBLIC_GA4_ID=
+
+# Email service API key (used for sending lead emails)
+EMAIL_SERVICE_API_KEY=
+
+# Email addresses for sending/receiving lead notifications
+EMAIL_FROM=
+EMAIL_TO=
+
+# Node environment
+NODE_ENV=development
