@@ -7,3 +7,6 @@ export type { TextAreaProps } from './TextArea'
 
 export { Select } from './Select'
 export type { SelectProps, SelectOption } from './Select'
+
+export { ContactForm } from './ContactForm'
+export type { ContactFormProps } from './ContactForm'

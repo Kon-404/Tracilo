@@ -18,6 +18,8 @@ const leadSchema = z.object({
   industry: z.string().optional(),
   companySize: z.string().optional(),
   timeline: z.string().optional(),
+  projectScope: z.string().optional(),
+  budget: z.string().optional(),
   createdAt: z.string(),
 });
 

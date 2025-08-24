@@ -10,3 +10,6 @@ export type { ContainerProps } from './Container'
 
 export { Section } from './Section'
 export type { SectionProps } from './Section'
+
+export { Breadcrumb } from './Breadcrumb'
+export type { BreadcrumbProps, BreadcrumbItem } from './Breadcrumb'

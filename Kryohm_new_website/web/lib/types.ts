@@ -10,6 +10,8 @@ export interface LeadSubmission {
   industry?: string;
   companySize?: string;
   timeline?: string;
+  projectScope?: string;
+  budget?: string;
   createdAt: string;
 }
 

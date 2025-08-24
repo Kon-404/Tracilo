@@ -17,6 +17,8 @@ function formatLeadEmail(subject: string, lead: LeadSubmission): { subject: stri
     lead.industry ? `Industry: ${lead.industry}` : undefined,
     lead.companySize ? `Company Size: ${lead.companySize}` : undefined,
     lead.timeline ? `Timeline: ${lead.timeline}` : undefined,
+    lead.projectScope ? `Project Scope: ${lead.projectScope}` : undefined,
+    lead.budget ? `Budget: ${lead.budget}` : undefined,
     lead.message ? `Message: ${lead.message}` : undefined,
     `Created At: ${lead.createdAt}`,
     `ID: ${lead.id}`,
