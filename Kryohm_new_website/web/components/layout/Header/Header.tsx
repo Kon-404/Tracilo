@@ -22,6 +22,16 @@ const navigation = [
       { name: 'Shower Control', href: '/products/shower-control' },
     ]
   },
+  { 
+    name: 'Industries',
+    href: '/industries',
+    children: [
+      { name: 'Agriculture', href: '/industries/agriculture' },
+      { name: 'Utilities', href: '/industries/utilities' },
+      { name: 'Property Management', href: '/industries/property-management' },
+      { name: 'Industrial', href: '/industries/industrial' },
+    ]
+  },
   { name: 'Platform', href: '/platform' },
   { name: 'Projects', href: '/projects' },
   { name: 'About', href: '/about' },
@@ -30,13 +40,13 @@ const navigation = [
 
 const Header = ({ className }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isProductsOpen, setIsProductsOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const pathname = usePathname()
 
   // Close mobile menu when route changes
   useEffect(() => {
     setIsOpen(false)
-    setIsProductsOpen(false)
+    setOpenDropdown(null)
   }, [pathname])
 
   // Handle escape key to close menu
@@ -44,7 +54,7 @@ const Header = ({ className }: HeaderProps) => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setIsOpen(false)
-        setIsProductsOpen(false)
+        setOpenDropdown(null)
       }
     }
 
@@ -94,8 +104,8 @@ const Header = ({ className }: HeaderProps) => {
                 {item.children ? (
                   <div 
                     className="relative"
-                    onMouseEnter={() => setIsProductsOpen(true)}
-                    onMouseLeave={() => setIsProductsOpen(false)}
+                    onMouseEnter={() => setOpenDropdown(item.name)}
+                    onMouseLeave={() => setOpenDropdown(null)}
                   >
                     <button
                       className={cn(
@@ -104,14 +114,14 @@ const Header = ({ className }: HeaderProps) => {
                           ? 'text-[--color-brand-primary]' 
                           : 'text-[--color-neutral-700]'
                       )}
-                      aria-expanded={isProductsOpen}
+                      aria-expanded={openDropdown === item.name}
                       aria-haspopup="true"
                     >
                       <span>{item.name}</span>
                       <svg 
                         className={cn(
                           'w-4 h-4 transition-transform duration-200',
-                          isProductsOpen ? 'rotate-180' : ''
+                          openDropdown === item.name ? 'rotate-180' : ''
                         )} 
                         fill="none" 
                         stroke="currentColor" 
@@ -122,8 +132,8 @@ const Header = ({ className }: HeaderProps) => {
                       </svg>
                     </button>
                     
-                    {/* Products Dropdown */}
-                    {isProductsOpen && (
+                    {/* Dropdown Menu */}
+                    {openDropdown === item.name && (
                       <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-medium border border-[--color-neutral-200] py-2">
                         {item.children.map((child) => (
                           <Link
