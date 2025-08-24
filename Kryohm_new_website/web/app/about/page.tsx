@@ -3,6 +3,8 @@ import { Section } from '@/components/ui/Section'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { TestimonialsSection } from '@/components/content/TestimonialsSection'
+import { ThirdPartyValidation } from '@/components/content/ThirdPartyValidation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -462,6 +464,17 @@ export default function AboutPage() {
           </div>
         </Container>
       </Section>
+
+      {/* Third-Party Validation */}
+      <ThirdPartyValidation variant="default" />
+
+      {/* Customer Testimonials */}
+      <TestimonialsSection 
+        variant="featured" 
+        limit={2}
+        title="What Our Partners Say"
+        description="Hear from business leaders who have transformed their operations with Kryohm solutions"
+      />
 
       {/* Call to Action */}
       <Section spacing="lg">

@@ -3,6 +3,9 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
+import { TestimonialsSection } from '@/components/content/TestimonialsSection'
+import { CustomerLogos } from '@/components/content/CustomerLogos'
+import { SuccessMetrics } from '@/components/content/SuccessMetrics'
 
 export default function HomePage() {
   return (
@@ -215,6 +218,20 @@ export default function HomePage() {
           </div>
         </Container>
       </Section>
+
+      {/* Customer Logos */}
+      <CustomerLogos />
+
+      {/* Success Metrics */}
+      <SuccessMetrics variant="default" />
+
+      {/* Customer Testimonials */}
+      <TestimonialsSection 
+        variant="featured" 
+        limit={3}
+        title="What Our Customers Say"
+        description="Real feedback from customers who have transformed their operations with Kryohm IoT solutions"
+      />
 
       {/* Contact CTA Section */}
       <Section spacing="lg" variant="dark">

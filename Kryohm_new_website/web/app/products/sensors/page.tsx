@@ -4,6 +4,7 @@ import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { RelatedProducts } from '@/components/content'
+import { TestimonialsSection } from '@/components/content/TestimonialsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -286,6 +287,15 @@ export default function SensorsPage() {
           <RelatedProducts currentProduct="sensors" />
         </Container>
       </Section>
+
+      {/* Customer Testimonials */}
+      <TestimonialsSection 
+        variant="product" 
+        productType="Sensors"
+        limit={2}
+        title="Sensor Success Stories"
+        description="See how our IoT sensors have delivered real results for customers across various industries"
+      />
 
       {/* Call to Action Section */}
       <Section spacing="lg">

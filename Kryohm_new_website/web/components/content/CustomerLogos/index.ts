@@ -1,0 +1,1 @@
+export { CustomerLogos } from './CustomerLogos'
