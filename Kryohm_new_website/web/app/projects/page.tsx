@@ -215,9 +215,11 @@ export default function ProjectsPage() {
   }
 
   const handleProjectCardClick = (projectId: string) => {
-    analytics.trackFormEvent('project_viewed', 'projects_gallery', { project_id: projectId })
-    // Navigation to case study detail page would go here
-    console.log(`Navigate to case study: ${projectId}`)
+    const project = sampleProjects.find(p => p.id === projectId)
+    if (project) {
+      analytics.trackFormEvent('project_viewed', 'projects_gallery', { project_id: projectId })
+      window.location.href = `/projects/${project.slug}`
+    }
   }
 
   const handleSeeResults = () => {
