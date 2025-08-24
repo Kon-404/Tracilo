@@ -36,8 +36,21 @@ const pricingSchema = baseSchema.extend({
   timeline: z.string().min(1, 'Please select your timeline'),
 })
 
+const technicalSchema = baseSchema.extend({
+  technicalRole: z.string().min(1, 'Please select your technical role'),
+  currentSystems: z.string().optional(),
+  integrationRequirements: z.string().min(10, 'Please describe your integration requirements'),
+  timeline: z.string().min(1, 'Please select your timeline'),
+})
+
+const referenceSchema = baseSchema.extend({
+  industry: z.string().min(1, 'Please select your industry'),
+  specificQuestions: z.string().min(10, 'Please describe what you would like to discuss'),
+  preferredContactMethod: z.string().min(1, 'Please select your preferred contact method'),
+})
+
 export interface ContactFormProps {
-  formType?: 'contact' | 'demo' | 'pricing'
+  formType?: 'contact' | 'demo' | 'pricing' | 'technical' | 'reference' | 'innovation' | 'api'
   className?: string
   onSuccess?: () => void
   onError?: (error: string) => void
@@ -108,6 +121,10 @@ export default function ContactForm({
         return demoSchema
       case 'pricing':
         return pricingSchema
+      case 'technical':
+        return technicalSchema
+      case 'reference':
+        return referenceSchema
       default:
         return baseSchema
     }
@@ -179,6 +196,14 @@ export default function ContactForm({
         return 'Book a Demo'
       case 'pricing':
         return 'Request Pricing'
+      case 'technical':
+        return 'Technical Consultation'
+      case 'reference':
+        return 'Speak with Reference Customer'
+      case 'innovation':
+        return 'Innovation Discussion'
+      case 'api':
+        return 'API Access Request'
       default:
         return 'Contact Us'
     }
@@ -237,6 +262,14 @@ export default function ContactForm({
               ? "Schedule a personalized demonstration of our IoT solutions."
               : formType === 'pricing'
               ? "Get a custom quote for your IoT project requirements."
+              : formType === 'technical'
+              ? "Connect with our technical team for detailed architecture discussions and implementation planning."
+              : formType === 'reference'
+              ? "We'll connect you with an existing customer to discuss their experience with Kryohm solutions."
+              : formType === 'innovation'
+              ? "Discuss emerging technologies, R&D initiatives, and future roadmap opportunities."
+              : formType === 'api'
+              ? "Request API credentials and technical documentation access for development."
               : "Get in touch with our IoT specialists for your energy management needs."
             }
           </p>

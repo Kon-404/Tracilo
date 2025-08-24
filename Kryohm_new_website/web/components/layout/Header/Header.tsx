@@ -34,6 +34,7 @@ const navigation = [
   },
   { name: 'Platform', href: '/platform' },
   { name: 'Projects', href: '/projects' },
+  { name: 'Technical', href: '/technical' },
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
 ]
