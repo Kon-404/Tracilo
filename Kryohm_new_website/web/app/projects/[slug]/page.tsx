@@ -10,8 +10,9 @@ import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { ContactForm } from '@/components/form/ContactForm'
+import { SocialShare } from '@/components/content/SocialShare'
+import { CaseStudyAnalytics } from '@/components/content/CaseStudyAnalytics'
 import { sampleProjects, getProjectsByIndustry, getProjectsByProductType } from '@/lib/data/projects'
-import { analytics } from '@/lib/analytics'
 import type { ProjectCaseStudy } from '@/lib/types'
 
 interface PageProps {
@@ -176,67 +177,7 @@ function RelatedProjects({ project }: CaseStudyDetailProps) {
   )
 }
 
-function SocialShare({ project }: CaseStudyDetailProps) {
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : ''
-  const shareText = `Check out this ${project.industry} IoT case study: ${project.title}`
 
-  const shareLinks = [
-    {
-      name: 'LinkedIn',
-      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`,
-      icon: '💼'
-    },
-    {
-      name: 'Twitter',
-      url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(currentUrl)}`,
-      icon: '🐦'
-    },
-    {
-      name: 'Email',
-      url: `mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(`I thought you might find this case study interesting: ${currentUrl}`)}`,
-      icon: '📧'
-    }
-  ]
-
-  const handleShare = (platform: string) => {
-    analytics.ctaClick(`share_${platform.toLowerCase()}`, 'case_study_detail')
-  }
-
-  const handlePrint = () => {
-    window.print()
-    analytics.ctaClick('print_case_study', 'case_study_detail')
-  }
-
-  return (
-    <div className="flex flex-wrap items-center gap-4">
-      <span className="text-sm font-medium text-[--color-neutral-800]">Share this case study:</span>
-      {shareLinks.map((link) => (
-        <Button
-          key={link.name}
-          variant="ghost"
-          size="sm"
-          onClick={() => {
-            handleShare(link.name)
-            window.open(link.url, '_blank', 'noopener,noreferrer')
-          }}
-          className="flex items-center space-x-2"
-        >
-          <span>{link.icon}</span>
-          <span>{link.name}</span>
-        </Button>
-      ))}
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={handlePrint}
-        className="flex items-center space-x-2"
-      >
-        <span>🖨️</span>
-        <span>Print</span>
-      </Button>
-    </div>
-  )
-}
 
 export default function CaseStudyDetailPage({ params }: PageProps) {
   const project = sampleProjects.find(p => p.slug === params.slug)
@@ -245,15 +186,7 @@ export default function CaseStudyDetailPage({ params }: PageProps) {
     notFound()
   }
 
-  // Track page view
-  useEffect(() => {
-    analytics.trackFormEvent('case_study_viewed', 'case_study_detail', { 
-      project_id: project.id,
-      project_slug: project.slug,
-      industry: project.industry,
-      product_type: project.productType
-    })
-  }, [project.id, project.slug, project.industry, project.productType])
+
 
   const getProductIcon = (productType: string) => {
     switch (productType) {
@@ -276,8 +209,28 @@ export default function CaseStudyDetailPage({ params }: PageProps) {
     }
   }
 
+  // Track page view
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      document.title = `${project.title} - Case Study | Kryohm IoT Solutions`
+      
+      // Update meta description
+      let metaDescription = document.querySelector('meta[name="description"]')
+      if (metaDescription) {
+        metaDescription.setAttribute('content', project.excerpt)
+      } else {
+        metaDescription = document.createElement('meta')
+        metaDescription.setAttribute('name', 'description')
+        metaDescription.setAttribute('content', project.excerpt)
+        document.head.appendChild(metaDescription)
+      }
+    }
+  }, [project.title, project.excerpt])
+
   return (
     <>
+      <CaseStudyAnalytics project={project} />
+      
       {/* Breadcrumb Navigation */}
       <Section spacing="sm" variant="secondary">
         <Container>
@@ -490,7 +443,7 @@ export default function CaseStudyDetailPage({ params }: PageProps) {
         <Container>
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-lg p-6 border border-[--color-neutral-200]">
-              <SocialShare project={project} />
+              <SocialShare title={project.title} />
             </div>
           </div>
         </Container>
@@ -552,8 +505,4 @@ export default function CaseStudyDetailPage({ params }: PageProps) {
   )
 }
 
-export async function generateStaticParams() {
-  return sampleProjects.map((project) => ({
-    slug: project.slug,
-  }))
-}
+

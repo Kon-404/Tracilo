@@ -422,13 +422,3 @@ export default function ProjectsPage() {
   )
 }
 
-export const metadata = {
-  title: 'Project Case Studies - Kryohm IoT Solutions',
-  description: 'Explore successful Kryohm IoT implementations across agriculture, utilities, property management, and industrial sectors. See measurable results and real-world impact.',
-  keywords: 'IoT case studies, project examples, customer success, implementation results, agriculture IoT, utility solutions, property management',
-  openGraph: {
-    title: 'Project Case Studies - Kryohm IoT Solutions',
-    description: 'Discover successful IoT implementations with measurable results across diverse industries.',
-    type: 'website',
-  },
-}
