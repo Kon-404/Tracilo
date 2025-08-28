@@ -23,7 +23,7 @@ const leadSchema = z.object({
   createdAt: z.string(),
 });
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<NextResponse> {
   const requestId = crypto.randomUUID();
   try {
     const json = await request.json();
@@ -39,10 +39,16 @@ export async function POST(request: Request) {
         await delay(250 * attempt);
       }
     }
-  } catch (error: any) {
-    if (error?.name === "ZodError") {
+    
+    // If we reach here, all attempts failed
+    return NextResponse.json(
+      { error: { code: "EMAIL_SEND_FAILED", message: "Failed after all retry attempts", requestId } },
+      { status: 500 }
+    );
+  } catch (error: unknown) {
+    if (error && typeof error === 'object' && 'name' in error && error.name === "ZodError") {
       return NextResponse.json(
-        { error: { code: "INVALID_PAYLOAD", message: "Invalid form data", details: error.flatten?.(), requestId } },
+        { error: { code: "INVALID_PAYLOAD", message: "Invalid form data", details: 'flatten' in error && typeof error.flatten === 'function' ? error.flatten() : undefined, requestId } },
         { status: 400 }
       );
     }

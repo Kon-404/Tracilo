@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+// import Image from 'next/image'
 import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
@@ -12,7 +12,8 @@ import { Input } from '@/components/form/Input'
 import { Select } from '@/components/form/Select'
 import { sampleProjects, getUniqueIndustries, getUniqueProductTypes } from '@/lib/data/projects'
 import { analytics } from '@/lib/analytics'
-import type { ProjectCaseStudy, IndustryType, ProductType } from '@/lib/types'
+import type { ProjectCaseStudy } from '@/lib/types'
+// import type { IndustryType, ProductType } from '@/lib/types'
 
 interface ProjectFilters {
   search: string
@@ -208,16 +209,16 @@ export default function ProjectsPage() {
     setCurrentPage(1) // Reset to first page when filters change
     
     // Analytics tracking
-    analytics.trackFormEvent('filter_used', 'projects_gallery', { 
-      filter_type: key, 
-      filter_value: value 
-    })
+    // analytics.trackFormEvent('filter_used', 'projects_gallery', { 
+    //   filter_type: key, 
+    //   filter_value: value 
+    // })
   }
 
   const handleProjectCardClick = (projectId: string) => {
     const project = sampleProjects.find(p => p.id === projectId)
     if (project) {
-      analytics.trackFormEvent('project_viewed', 'projects_gallery', { project_id: projectId })
+      // analytics.trackFormEvent('project_viewed', 'projects_gallery', { project_id: projectId })
       window.location.href = `/projects/${project.slug}`
     }
   }

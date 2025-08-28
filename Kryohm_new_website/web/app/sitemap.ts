@@ -89,7 +89,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...sampleProjects.map(project => ({
       url: `${baseUrl}/projects/${project.slug}`,
-      lastModified: new Date(project.completionDate || '2024-01-01'),
+      lastModified: new Date('2024-01-01'), // Use a default date since completionDate doesn't exist
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     })),

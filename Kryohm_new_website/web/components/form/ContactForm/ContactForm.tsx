@@ -20,6 +20,11 @@ const baseSchema = z.object({
   phone: z.string().optional(),
   productInterest: z.enum(['Sensors', 'Prepaid Metering', 'Shower Control', 'Platform']),
   message: z.string().optional(),
+  industry: z.string().optional(),
+  companySize: z.string().optional(),
+  timeline: z.string().optional(),
+  projectScope: z.string().optional(),
+  budget: z.string().optional(),
   privacyConsent: z.boolean().refine(val => val, 'You must accept our privacy policy to continue'),
 })
 
@@ -137,8 +142,8 @@ export default function ContactForm({
     register,
     handleSubmit,
     reset,
-    formState: { errors },
-    watch
+    formState: { errors }
+    // watch removed - not currently used
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -146,7 +151,7 @@ export default function ContactForm({
     }
   })
 
-  const watchedProductInterest = watch('productInterest')
+  // const watchedProductInterest = watch('productInterest')
 
   // Track form start when user begins typing
   const handleFormStart = () => {
@@ -163,6 +168,7 @@ export default function ContactForm({
 
     try {
       // Remove privacyConsent from submission data and prepare lead submission
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { privacyConsent, ...submissionData } = data
       
       const lead: LeadSubmission = {

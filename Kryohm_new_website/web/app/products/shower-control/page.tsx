@@ -384,10 +384,10 @@ export default function ShowerControlPage() {
                 <CardContent>
                   <form className="space-y-4">
                     <div>
-                      <label className="block text-body-sm font-medium text-[--color-neutral-700] mb-2">
+                      <label htmlFor="facility-type" className="block text-body-sm font-medium text-[--color-neutral-700] mb-2">
                         Facility Type
                       </label>
-                      <select className="w-full border border-[--color-neutral-300] rounded-lg px-3 py-2 text-body-sm">
+                      <select id="facility-type" className="w-full border border-[--color-neutral-300] rounded-lg px-3 py-2 text-body-sm">
                         <option>Apartment complex</option>
                         <option>Hotel/hospitality</option>
                         <option>Student housing</option>
@@ -397,10 +397,10 @@ export default function ShowerControlPage() {
                     </div>
                     
                     <div>
-                      <label className="block text-body-sm font-medium text-[--color-neutral-700] mb-2">
+                      <label htmlFor="number-units" className="block text-body-sm font-medium text-[--color-neutral-700] mb-2">
                         Number of Units
                       </label>
-                      <select className="w-full border border-[--color-neutral-300] rounded-lg px-3 py-2 text-body-sm">
+                      <select id="number-units" className="w-full border border-[--color-neutral-300] rounded-lg px-3 py-2 text-body-sm">
                         <option>1-50 units</option>
                         <option>51-100 units</option>
                         <option>101-250 units</option>
@@ -409,10 +409,10 @@ export default function ShowerControlPage() {
                     </div>
                     
                     <div>
-                      <label className="block text-body-sm font-medium text-[--color-neutral-700] mb-2">
+                      <label htmlFor="water-costs" className="block text-body-sm font-medium text-[--color-neutral-700] mb-2">
                         Current Water Costs (Monthly)
                       </label>
-                      <select className="w-full border border-[--color-neutral-300] rounded-lg px-3 py-2 text-body-sm">
+                      <select id="water-costs" className="w-full border border-[--color-neutral-300] rounded-lg px-3 py-2 text-body-sm">
                         <option>Under $1,000</option>
                         <option>$1,000 - $5,000</option>
                         <option>$5,000 - $15,000</option>

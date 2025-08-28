@@ -42,13 +42,27 @@ const navigation = [
 const Header = ({ className }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null)
   const pathname = usePathname()
 
   // Close mobile menu when route changes
   useEffect(() => {
     setIsOpen(false)
     setOpenDropdown(null)
-  }, [pathname])
+    if (dropdownTimeout) {
+      clearTimeout(dropdownTimeout)
+      setDropdownTimeout(null)
+    }
+  }, [pathname, dropdownTimeout])
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeout) {
+        clearTimeout(dropdownTimeout)
+      }
+    }
+  }, [dropdownTimeout])
 
   // Handle escape key to close menu
   useEffect(() => {
@@ -80,6 +94,21 @@ const Header = ({ className }: HeaderProps) => {
     setOpenDropdown(openDropdown === name ? null : name)
   }
 
+  const handleMouseEnter = (name: string) => {
+    if (dropdownTimeout) {
+      clearTimeout(dropdownTimeout)
+      setDropdownTimeout(null)
+    }
+    setOpenDropdown(name)
+  }
+
+  const handleMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setOpenDropdown(null)
+    }, 150) // Small delay to prevent accidental closes
+    setDropdownTimeout(timeout)
+  }
+
   return (
     <header className={cn('sticky top-0 z-50 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-[--color-neutral-200]', className)}>
       <Container size="xl" padding="md">
@@ -105,8 +134,8 @@ const Header = ({ className }: HeaderProps) => {
                 {item.children ? (
                   <div 
                     className="relative"
-                    onMouseEnter={() => setOpenDropdown(item.name)}
-                    onMouseLeave={() => setOpenDropdown(null)}
+                    onMouseEnter={() => handleMouseEnter(item.name)}
+                    onMouseLeave={handleMouseLeave}
                   >
                     <button
                       className={cn(
@@ -135,7 +164,8 @@ const Header = ({ className }: HeaderProps) => {
                     
                     {/* Dropdown Menu */}
                     {openDropdown === item.name && (
-                      <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-medium border border-[--color-neutral-200] py-2">
+                      <div className="absolute top-full left-0 pt-1 w-56">
+                        <div className="bg-white rounded-lg shadow-medium border border-[--color-neutral-200] py-2">
                         {item.children.map((child) => (
                           <Link
                             key={child.name}
@@ -150,6 +180,7 @@ const Header = ({ className }: HeaderProps) => {
                             {child.name}
                           </Link>
                         ))}
+                        </div>
                       </div>
                     )}
                   </div>

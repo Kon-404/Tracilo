@@ -1,12 +1,12 @@
 // Analytics tracking utilities
 
-interface AnalyticsEvent {
-  event: string
-  [key: string]: any
-}
+// interface AnalyticsEvent {
+//   event: string
+//   [key: string]: any
+// }
 
 // Track form events
-export function trackFormEvent(event: string, formType: string, additionalData?: Record<string, any>) {
+export function trackFormEvent(event: string, formType: string, additionalData?: Record<string, unknown>) {
   if (typeof window === 'undefined') return
 
   // GA4 tracking
@@ -68,6 +68,7 @@ export const analytics = {
 // Type declaration for gtag
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     gtag?: (...args: any[]) => void
   }
 }

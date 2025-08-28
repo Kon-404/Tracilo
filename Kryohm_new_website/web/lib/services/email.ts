@@ -42,6 +42,7 @@ export async function sendLeadEmail(lead: LeadSubmission): Promise<SendEmailResu
 
   const resend = new Resend(apiKey);
   const result = await resend.emails.send({ from, to, subject, html, text });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return { ok: true, id: (result as any)?.data?.id ?? undefined };
 }
 

@@ -60,7 +60,7 @@ const products = [
 ]
 
 // Comparison matrix data
-const comparisonFeatures = [
+/* const comparisonFeatures = [
   {
     feature: 'Primary Application',
     sensors: 'Environmental Monitoring',
@@ -85,7 +85,7 @@ const comparisonFeatures = [
     metering: 'Cash Flow',
     shower: 'Water Savings'
   }
-]
+] */
 
 export default function ProductsPage() {
   return (

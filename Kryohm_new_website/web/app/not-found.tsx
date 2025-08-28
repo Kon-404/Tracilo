@@ -46,7 +46,7 @@ export default function NotFound() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" asChild className="w-full">
+                <Button variant="secondary" asChild className="w-full">
                   <Link href="/">Go to Homepage</Link>
                 </Button>
               </CardContent>
@@ -170,7 +170,7 @@ export default function NotFound() {
               <Button asChild>
                 <Link href="/contact">Contact Our Team</Link>
               </Button>
-              <Button variant="outline" asChild>
+              <Button variant="ghost" asChild>
                 <Link href="/contact?type=demo">Book a Demo</Link>
               </Button>
             </div>

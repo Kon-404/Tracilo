@@ -1,5 +1,7 @@
 "use client";
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
@@ -113,7 +115,7 @@ const supportLevels = [
   }
 ];
 
-export default function ContactPage() {
+function ContactPageContent() {
   const searchParams = useSearchParams();
   const type = searchParams.get('type');
   
@@ -481,5 +483,13 @@ export default function ContactPage() {
         </Container>
       </Section>
     </>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ContactPageContent />
+    </Suspense>
   );
 }

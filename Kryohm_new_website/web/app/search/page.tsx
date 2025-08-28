@@ -185,7 +185,7 @@ export default function SearchPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="text-lg py-4"
-                autoFocus
+                // autoFocus
               />
             </div>
 
@@ -252,16 +252,16 @@ export default function SearchPage() {
                       Try adjusting your search terms or browse our main sections
                     </p>
                     <div className="flex flex-wrap gap-3 justify-center">
-                      <Button variant="outline" size="sm" asChild>
+                      <Button variant="ghost" size="sm" asChild>
                         <Link href="/products">Products</Link>
                       </Button>
-                      <Button variant="outline" size="sm" asChild>
+                      <Button variant="ghost" size="sm" asChild>
                         <Link href="/projects">Projects</Link>
                       </Button>
-                      <Button variant="outline" size="sm" asChild>
+                      <Button variant="ghost" size="sm" asChild>
                         <Link href="/industries">Industries</Link>
                       </Button>
-                      <Button variant="outline" size="sm" asChild>
+                      <Button variant="ghost" size="sm" asChild>
                         <Link href="/technical">Technical</Link>
                       </Button>
                     </div>
