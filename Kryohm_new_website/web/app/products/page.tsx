@@ -115,11 +115,11 @@ export default function ProductsPage() {
             </div>
             
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="primary" size="lg">
-                Book a Demo
+              <Button variant="primary" size="lg" asChild>
+                <Link href="/contact?type=demo">Book a Demo</Link>
               </Button>
-              <Button variant="secondary" size="lg">
-                Request Pricing
+              <Button variant="secondary" size="lg" asChild>
+                <Link href="/contact">Request Pricing</Link>
               </Button>
             </div>
           </div>
@@ -177,16 +177,16 @@ export default function ProductsPage() {
                 </CardContent>
                 
                 <CardFooter className="flex flex-col gap-3">
-                  <Link href={product.slug} className="w-full">
-                    <Button variant="primary" className="w-full">
+                  <Button variant="primary" className="w-full" asChild>
+                    <Link href={`/contact?type=demo&product=${product.id}`}>
                       {product.ctaPrimary}
-                    </Button>
-                  </Link>
-                  <Link href={product.slug} className="w-full">
-                    <Button variant="secondary" className="w-full">
+                    </Link>
+                  </Button>
+                  <Button variant="secondary" className="w-full" asChild>
+                    <Link href={product.slug}>
                       {product.ctaSecondary}
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </CardFooter>
               </Card>
             ))}
@@ -213,14 +213,14 @@ export default function ProductsPage() {
               and create a customized implementation plan for your business.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="primary" size="lg">
-                Book a Demo
+              <Button variant="primary" size="lg" asChild>
+                <Link href="/contact?type=demo">Book a Demo</Link>
               </Button>
-              <Button variant="secondary" size="lg">
-                Request Pricing
+              <Button variant="secondary" size="lg" asChild>
+                <Link href="/contact">Request Pricing</Link>
               </Button>
-              <Button variant="ghost" size="lg">
-                Talk to Specialist
+              <Button variant="ghost" size="lg" asChild>
+                <Link href="/contact?type=technical">Talk to Specialist</Link>
               </Button>
             </div>
           </div>

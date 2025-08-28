@@ -97,14 +97,14 @@ export default function PlatformPage() {
               transforms how you monitor, manage, and optimize your operations.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="primary" size="lg">
-                Platform Demo
+              <Button variant="primary" size="lg" asChild>
+                <Link href="/contact?type=demo">Platform Demo</Link>
               </Button>
-              <Button variant="secondary" size="lg">
-                Technical Discussion
+              <Button variant="secondary" size="lg" asChild>
+                <Link href="/contact?type=technical">Technical Discussion</Link>
               </Button>
-              <Button variant="ghost" size="lg">
-                Integration Assessment
+              <Button variant="ghost" size="lg" asChild>
+                <Link href="/contact?type=technical">Integration Assessment</Link>
               </Button>
             </div>
           </div>
@@ -286,17 +286,15 @@ export default function PlatformPage() {
               Schedule a demo or technical discussion to explore integration possibilities.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="primary" size="lg">
-                Platform Demo
+              <Button variant="primary" size="lg" asChild>
+                <Link href="/contact?type=demo">Platform Demo</Link>
               </Button>
-              <Button variant="secondary" size="lg">
-                Technical Discussion
+              <Button variant="secondary" size="lg" asChild>
+                <Link href="/contact?type=technical">Technical Discussion</Link>
               </Button>
-              <Link href="/contact">
-                <Button variant="ghost" size="lg">
-                  Contact Technical Team
-                </Button>
-              </Link>
+              <Button variant="ghost" size="lg" asChild>
+                <Link href="/contact">Contact Technical Team</Link>
+              </Button>
             </div>
           </div>
         </Container>

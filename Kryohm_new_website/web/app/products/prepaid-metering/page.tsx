@@ -96,14 +96,14 @@ export default function PrepaidMeteringPage() {
                 and commercial facilities.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button variant="primary" size="lg">
-                  Request Metering Demo
+                <Button variant="primary" size="lg" asChild>
+                  <Link href="/contact?type=demo&product=prepaid-metering">Request Metering Demo</Link>
                 </Button>
-                <Button variant="secondary" size="lg">
-                  Get Implementation Quote
+                <Button variant="secondary" size="lg" asChild>
+                  <Link href="/contact?type=pricing&product=prepaid-metering">Get Implementation Quote</Link>
                 </Button>
-                <Button variant="ghost" size="lg">
-                  Speak with Expert
+                <Button variant="ghost" size="lg" asChild>
+                  <Link href="/contact?type=technical">Speak with Expert</Link>
                 </Button>
               </div>
             </div>
@@ -334,17 +334,15 @@ export default function PrepaidMeteringPage() {
               Kryohm's prepaid metering solutions. Get started with a custom implementation plan.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="primary" size="lg">
-                Request Metering Demo
+              <Button variant="primary" size="lg" asChild>
+                <Link href="/contact?type=demo&product=prepaid-metering">Request Metering Demo</Link>
               </Button>
-              <Button variant="secondary" size="lg">
-                Get Implementation Quote
+              <Button variant="secondary" size="lg" asChild>
+                <Link href="/contact?type=pricing&product=prepaid-metering">Get Implementation Quote</Link>
               </Button>
-              <Link href="/products">
-                <Button variant="ghost" size="lg">
-                  View All Products
-                </Button>
-              </Link>
+              <Button variant="ghost" size="lg" asChild>
+                <Link href="/products">View All Products</Link>
+              </Button>
             </div>
           </div>
         </Container>

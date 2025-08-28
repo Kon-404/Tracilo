@@ -76,8 +76,8 @@ const Header = ({ className }: HeaderProps) => {
     setIsOpen(!isOpen)
   }
 
-  const toggleProductsDropdown = () => {
-    setIsProductsOpen(!isProductsOpen)
+  const toggleDropdown = (name: string) => {
+    setOpenDropdown(openDropdown === name ? null : name)
   }
 
   return (
@@ -223,14 +223,14 @@ const Header = ({ className }: HeaderProps) => {
                             ? 'text-[--color-brand-primary] bg-[--color-brand-primary-50]' 
                             : 'text-[--color-neutral-700]'
                         )}
-                        onClick={toggleProductsDropdown}
-                        aria-expanded={isProductsOpen}
+                        onClick={() => toggleDropdown(item.name)}
+                        aria-expanded={openDropdown === item.name}
                       >
                         <span>{item.name}</span>
                         <svg 
                           className={cn(
                             'w-4 h-4 transition-transform duration-200',
-                            isProductsOpen ? 'rotate-180' : ''
+                            openDropdown === item.name ? 'rotate-180' : ''
                           )} 
                           fill="none" 
                           stroke="currentColor" 
@@ -239,7 +239,7 @@ const Header = ({ className }: HeaderProps) => {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
-                      {isProductsOpen && (
+                      {openDropdown === item.name && (
                         <div className="ml-4 mt-1 space-y-1">
                           {item.children.map((child) => (
                             <Link

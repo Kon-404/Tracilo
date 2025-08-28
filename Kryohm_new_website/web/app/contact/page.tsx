@@ -160,14 +160,14 @@ export default function ContactPage() {
             
             {/* Quick Action Buttons */}
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="primary" size="lg">
-                Book a Demo
+              <Button variant="primary" size="lg" asChild>
+                <Link href="/contact?type=demo">Book a Demo</Link>
               </Button>
-              <Button variant="secondary" size="lg">
-                Request Pricing
+              <Button variant="secondary" size="lg" asChild>
+                <Link href="/contact?type=pricing">Request Pricing</Link>
               </Button>
-              <Button variant="ghost" size="lg">
-                Emergency Support
+              <Button variant="ghost" size="lg" asChild>
+                <Link href="tel:+2782XXXXXXX">Emergency Support</Link>
               </Button>
             </div>
           </div>
@@ -427,8 +427,8 @@ export default function ContactPage() {
                 <p className="text-body-sm text-[--color-neutral-600] mb-4">
                   Technical guides and API references
                 </p>
-                <Button variant="ghost" size="sm">
-                  View Docs
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/docs">View Docs</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -442,8 +442,8 @@ export default function ContactPage() {
                 <p className="text-body-sm text-[--color-neutral-600] mb-4">
                   Frequently asked questions
                 </p>
-                <Button variant="ghost" size="sm">
-                  Read FAQ
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/faq">Read FAQ</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -457,8 +457,8 @@ export default function ContactPage() {
                 <p className="text-body-sm text-[--color-neutral-600] mb-4">
                   Step-by-step setup guides
                 </p>
-                <Button variant="ghost" size="sm">
-                  Watch Videos
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/tutorials">Watch Videos</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -472,8 +472,8 @@ export default function ContactPage() {
                 <p className="text-body-sm text-[--color-neutral-600] mb-4">
                   Certification and training programs
                 </p>
-                <Button variant="ghost" size="sm">
-                  Learn More
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/training">Learn More</Link>
                 </Button>
               </CardContent>
             </Card>

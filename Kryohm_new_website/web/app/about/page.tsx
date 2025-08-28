@@ -143,14 +143,14 @@ export default function AboutPage() {
               to deliver transformational results for our clients.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="primary" size="lg">
-                Meet Our Team
+              <Button variant="primary" size="lg" asChild>
+                <Link href="/contact?type=demo">Meet Our Team</Link>
               </Button>
-              <Button variant="secondary" size="lg">
-                Discuss Your Project
+              <Button variant="secondary" size="lg" asChild>
+                <Link href="/contact">Discuss Your Project</Link>
               </Button>
-              <Button variant="ghost" size="lg">
-                Schedule Consultation
+              <Button variant="ghost" size="lg" asChild>
+                <Link href="/contact?type=technical">Schedule Consultation</Link>
               </Button>
             </div>
           </div>
@@ -488,17 +488,15 @@ export default function AboutPage() {
               that drive real results. Let's discuss how we can help transform your operations.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="primary" size="lg">
-                Meet Our Team
+              <Button variant="primary" size="lg" asChild>
+                <Link href="/contact?type=demo">Meet Our Team</Link>
               </Button>
-              <Button variant="secondary" size="lg">
-                Discuss Your Project
+              <Button variant="secondary" size="lg" asChild>
+                <Link href="/contact">Discuss Your Project</Link>
               </Button>
-              <Link href="/contact">
-                <Button variant="ghost" size="lg">
-                  Contact Us
-                </Button>
-              </Link>
+              <Button variant="ghost" size="lg" asChild>
+                <Link href="/contact">Contact Us</Link>
+              </Button>
             </div>
           </div>
         </Container>

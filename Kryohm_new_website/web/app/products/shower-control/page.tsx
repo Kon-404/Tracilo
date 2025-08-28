@@ -123,14 +123,14 @@ export default function ShowerControlPage() {
                 that enhance tenant satisfaction.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button variant="primary" size="lg">
-                  Request Water Demo
+                <Button variant="primary" size="lg" asChild>
+                  <Link href="/contact?type=demo&product=shower-control">Request Water Demo</Link>
                 </Button>
-                <Button variant="secondary" size="lg">
-                  Calculate Savings
+                <Button variant="secondary" size="lg" asChild>
+                  <Link href="/contact?type=pricing&product=shower-control">Calculate Savings</Link>
                 </Button>
-                <Button variant="ghost" size="lg">
-                  Contact Specialist
+                <Button variant="ghost" size="lg" asChild>
+                  <Link href="/contact?type=technical">Contact Specialist</Link>
                 </Button>
               </div>
             </div>
@@ -420,8 +420,8 @@ export default function ShowerControlPage() {
                       </select>
                     </div>
                     
-                    <Button variant="primary" className="w-full">
-                      Calculate Savings
+                    <Button variant="primary" className="w-full" asChild>
+                      <Link href="/contact?type=pricing&product=shower-control">Calculate Savings</Link>
                     </Button>
                   </form>
                 </CardContent>
@@ -561,17 +561,15 @@ export default function ShowerControlPage() {
               with Kryohm's intelligent shower control systems.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="primary" size="lg">
-                Request Water Demo
+              <Button variant="primary" size="lg" asChild>
+                <Link href="/contact?type=demo&product=shower-control">Request Water Demo</Link>
               </Button>
-              <Button variant="secondary" size="lg">
-                Calculate Savings
+              <Button variant="secondary" size="lg" asChild>
+                <Link href="/contact?type=pricing&product=shower-control">Calculate Savings</Link>
               </Button>
-              <Link href="/products">
-                <Button variant="ghost" size="lg">
-                  View All Products
-                </Button>
-              </Link>
+              <Button variant="ghost" size="lg" asChild>
+                <Link href="/products">View All Products</Link>
+              </Button>
             </div>
           </div>
         </Container>
