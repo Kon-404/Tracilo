@@ -1,0 +1,122 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Production builds
+/packages/web/dist/
+/packages/web/build/
+/packages/server/dist/
+/packages/server/build/
+/packages/mobile/android/app/build/
+/packages/mobile/ios/build/
+/packages/mobile/ios/DerivedData/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs
+*.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache directories
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+
+# React Native
+/packages/mobile/android/app/src/main/assets/
+/packages/mobile/ios/main.jsbundle
+/packages/mobile/ios/main.jsbundle.map
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Metro
+.metro-health-check*
+
+# Flipper
+/packages/mobile/ios/Pods/
+/packages/mobile/ios/*.xcworkspace
+
+# Temporary folders
+tmp/
+temp/
+
+# AI and development tools
+.ai/
+.bmad-core/temp/
+.claude/temp/
+
+# Research and planning (keep in repo for team collaboration)
+# research/ - keeping this for team visibility
+# docs/ - keeping this for documentation
+
+# Sensitive configuration files (examples are okay)
+config/production.json
+config/staging.json
+!/config/*.example.json
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+
+# Platform-specific
+# React Native Android
+/packages/mobile/android/app/release/
+/packages/mobile/android/keystore.properties
+/packages/mobile/android/app/my-upload-key.keystore
+
+# React Native iOS
+/packages/mobile/ios/Pods/
+/packages/mobile/ios/*.xcworkspace
+/packages/mobile/ios/*.xcuserdata
+
+# Prisma
+/packages/server/prisma/*.db
+/packages/server/prisma/migrations/*/migration.sql
