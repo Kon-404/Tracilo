@@ -8,6 +8,60 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
+export async function GET() {
+  return new NextResponse(
+    `<!DOCTYPE html>
+    <html>
+      <head>
+        <title>Database Seed</title>
+        <style>
+          body { font-family: system-ui; max-width: 600px; margin: 50px auto; padding: 20px; }
+          button { background: #0070f3; color: white; border: none; padding: 12px 24px;
+                   border-radius: 6px; cursor: pointer; font-size: 16px; }
+          button:hover { background: #0051cc; }
+          .result { margin-top: 20px; padding: 12px; border-radius: 6px; }
+          .success { background: #d4edda; color: #155724; }
+          .error { background: #f8d7da; color: #721c24; }
+        </style>
+      </head>
+      <body>
+        <h1>Database Seed</h1>
+        <p>Click the button below to seed the database with system templates (Vehicle, Solar, Gas).</p>
+        <button onclick="seedDatabase()">Seed Database</button>
+        <div id="result"></div>
+
+        <script>
+          async function seedDatabase() {
+            const result = document.getElementById('result');
+            result.innerHTML = 'Seeding database...';
+            result.className = 'result';
+
+            try {
+              const response = await fetch('/api/seed', { method: 'POST' });
+              const data = await response.json();
+
+              if (data.success) {
+                result.innerHTML = '<strong>Success!</strong><br>' + data.message +
+                  '<br><br>Templates created:<ul>' +
+                  data.templates.map(t => '<li>' + t.name + '</li>').join('') +
+                  '</ul>';
+                result.className = 'result success';
+              } else {
+                result.innerHTML = '<strong>Error:</strong> ' + data.error;
+                result.className = 'result error';
+              }
+            } catch (error) {
+              result.innerHTML = '<strong>Error:</strong> ' + error.message;
+              result.className = 'result error';
+            }
+          }
+        </script>
+      </body>
+    </html>`,
+    { headers: { 'Content-Type': 'text/html' } }
+  );
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Optional: Add authentication check here
