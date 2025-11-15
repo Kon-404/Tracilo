@@ -18,8 +18,8 @@ export const metadata: Metadata = {
   },
 };
 
-// Enable static generation with revalidation
-export const revalidate = 60; // Revalidate every 60 seconds
+// Force dynamic rendering (required for database access)
+export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const allTemplates = await getAllTemplates();
