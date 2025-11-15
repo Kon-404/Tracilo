@@ -11,21 +11,80 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+// Organization - Company or team workspace
+model Organization {
+  id        String   @id @default(cuid())
+  name      String   @unique // Globally unique organization name
+  slug      String   @unique // URL-friendly identifier
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members     OrganizationMember[]
+  submissions FormSubmission[]
+  invites     PendingInvite[]
+  templates   FormTemplate[]
+
+  @@map("organizations")
+}
+
+// User Profile - Extends Supabase auth.users
+model UserProfile {
+  id                   String   @id // Matches Supabase auth.users.id
+  email                String   @unique
+  fullName             String?
+  avatarUrl            String?
+  activeOrganizationId String?  // Currently selected organization
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  memberships      OrganizationMember[]
+  submissions      FormSubmission[]
+  sentInvites      PendingInvite[]
+  createdTemplates FormTemplate[]
+
+  @@map("user_profiles")
+}
+
+// Organization Member - Links users to organizations
+model OrganizationMember {
+  id                String   @id @default(cuid())
+  organizationId    String
+  userId            String
+  role              String   @default("member") // owner, admin, member, viewer
+  customPermissions Json?    // Custom permissions override for this member
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user         UserProfile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+  @@index([organizationId])
+  @@index([userId])
+  @@map("organization_members")
+}
+
 // Form Template - Reusable checklist template
 model FormTemplate {
-  id          String        @id @default(cuid())
-  name        String
-  category    String        // vehicle, solar, gas, etc.
-  description String
-  icon        String?       // emoji or icon identifier
-  version     Int           @default(1)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id             String        @id @default(cuid())
+  name           String
+  category       String        // vehicle, solar, gas, etc.
+  description    String
+  icon           String?       // emoji or icon identifier
+  version        Int           @default(1)
+  organizationId String?       // null = system template, not null = org-specific
+  createdBy      String?       // User ID who created the template
+  isPublic       Boolean       @default(false) // Allow other orgs to use this template
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 
-  sections    FormSection[]
-  submissions FormSubmission[]
+  sections     FormSection[]
+  submissions  FormSubmission[]
+  organization Organization?  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  creator      UserProfile?   @relation(fields: [createdBy], references: [id], onDelete: SetNull)
 
   @@index([category])
+  @@index([organizationId])
   @@map("form_templates")
 }
 
@@ -64,21 +123,27 @@ model FormField {
 
 // Form Submission - Completed form instance
 model FormSubmission {
-  id           String   @id @default(cuid())
-  templateId   String
-  templateName String   // Denormalized for easier querying
-  category     String   // Denormalized
-  submittedAt  DateTime @default(now())
-  submittedBy  String?  // Future: user ID
-  status       String   @default("completed") // draft, completed
-  metadata     Json?    // GPS, device info, etc.
+  id             String   @id @default(cuid())
+  templateId     String
+  templateName   String   // Denormalized for easier querying
+  category       String   // Denormalized
+  submittedAt    DateTime @default(now())
+  submittedBy    String?  // Denormalized user name for display
+  userId         String   // Link to UserProfile
+  organizationId String   // Link to Organization
+  status         String   @default("completed") // draft, completed
+  metadata       Json?    // GPS, device info, etc.
 
-  template     FormTemplate @relation(fields: [templateId], references: [id])
+  template     FormTemplate  @relation(fields: [templateId], references: [id])
+  user         UserProfile   @relation(fields: [userId], references: [id])
+  organization Organization  @relation(fields: [organizationId], references: [id])
   answers      FormAnswer[]
 
   @@index([templateId])
   @@index([submittedAt])
   @@index([category])
+  @@index([userId])
+  @@index([organizationId])
   @@map("form_submissions")
 }
 
@@ -97,4 +162,24 @@ model FormAnswer {
 
   @@index([submissionId])
   @@map("form_answers")
+}
+
+// Pending Invite - Invitation to join organization
+model PendingInvite {
+  id             String   @id @default(cuid())
+  organizationId String
+  email          String
+  role           String   @default("member") // Role to assign when accepted
+  invitedBy      String   // User ID who sent the invite
+  token          String   @unique  // Unique token for email verification
+  expiresAt      DateTime // Expiration date (default 7 days)
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  inviter      UserProfile  @relation(fields: [invitedBy], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([token])
+  @@index([organizationId])
+  @@map("pending_invites")
 }

@@ -83,10 +83,11 @@ export async function getTemplatesByCategory(category: string): Promise<FormTemp
  */
 
 /**
- * Get all submissions
+ * Get all submissions (optionally filtered by organization)
  */
-export async function getAllSubmissions(): Promise<FormSubmission[]> {
+export async function getAllSubmissions(organizationId?: string): Promise<FormSubmission[]> {
   const submissions = await prisma.formSubmission.findMany({
+    where: organizationId ? { organizationId } : undefined,
     include: {
       answers: true,
     },
@@ -97,9 +98,12 @@ export async function getAllSubmissions(): Promise<FormSubmission[]> {
 }
 
 /**
- * Get submission by ID
+ * Get submission by ID (optionally filtered by organization)
  */
-export async function getSubmissionById(id: string): Promise<FormSubmission | null> {
+export async function getSubmissionById(
+  id: string,
+  organizationId?: string
+): Promise<FormSubmission | null> {
   const submission = await prisma.formSubmission.findUnique({
     where: { id },
     include: {
@@ -108,7 +112,83 @@ export async function getSubmissionById(id: string): Promise<FormSubmission | nu
   });
 
   if (!submission) return null;
+
+  // If organizationId is provided, verify access
+  if (organizationId && submission.organizationId !== organizationId) {
+    return null;
+  }
+
   return convertPrismaSubmissionToAppSubmission(submission);
+}
+
+/**
+ * Verify if user has access to submission through their organization
+ */
+export async function canAccessSubmission(
+  submissionId: string,
+  userId: string
+): Promise<boolean> {
+  const submission = await prisma.formSubmission.findUnique({
+    where: { id: submissionId },
+    select: { organizationId: true },
+  });
+
+  if (!submission) return false;
+
+  // Check if user is member of the organization
+  const membership = await prisma.organizationMember.findUnique({
+    where: {
+      organizationId_userId: {
+        organizationId: submission.organizationId,
+        userId,
+      },
+    },
+  });
+
+  return !!membership;
+}
+
+/**
+ * Verify if user has permission to delete a submission
+ * - Owners and admins can delete all submissions
+ * - Members can only delete if they have customPermissions.canDeleteSubmissions
+ */
+export async function canDeleteSubmission(
+  submissionId: string,
+  userId: string
+): Promise<boolean> {
+  const submission = await prisma.formSubmission.findUnique({
+    where: { id: submissionId },
+    select: { organizationId: true },
+  });
+
+  if (!submission) return false;
+
+  // Get user's membership in the submission's organization
+  const membership = await prisma.organizationMember.findUnique({
+    where: {
+      organizationId_userId: {
+        organizationId: submission.organizationId,
+        userId,
+      },
+    },
+  });
+
+  if (!membership) return false;
+
+  // Owners and admins can always delete
+  if (membership.role === 'owner' || membership.role === 'admin') {
+    return true;
+  }
+
+  // Members can only delete if they have the custom permission
+  if (membership.role === 'member') {
+    const customPerms = membership.customPermissions as { canDeleteSubmissions?: boolean } | null;
+    return customPerms?.canDeleteSubmissions === true;
+  }
+
+  // Viewers cannot delete
+  return false;
 }
 
 /**
@@ -129,7 +209,11 @@ export async function getSubmissionsByTemplate(templateId: string): Promise<Form
 /**
  * Create new submission
  */
-export async function createSubmission(submission: FormSubmission): Promise<FormSubmission> {
+export async function createSubmission(
+  submission: FormSubmission,
+  userId: string,
+  organizationId: string
+): Promise<FormSubmission> {
   const created = await prisma.formSubmission.create({
     data: {
       id: submission.id,
@@ -138,6 +222,8 @@ export async function createSubmission(submission: FormSubmission): Promise<Form
       category: submission.category,
       submittedAt: submission.submittedAt,
       submittedBy: submission.submittedBy,
+      userId,
+      organizationId,
       status: submission.status,
       metadata: submission.metadata as any,
       answers: {

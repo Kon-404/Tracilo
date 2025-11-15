@@ -110,7 +110,7 @@ export default function SubmissionDetailPage({
 
       return (
         <div className="grid grid-cols-2 gap-3 mt-2">
-          {photos.map((photoUrl: string, index: number) => (
+          {(photos as string[]).map((photoUrl, index) => (
             <a
               key={index}
               href={photoUrl}
@@ -162,19 +162,12 @@ export default function SubmissionDetailPage({
     }
 
     // Find the actual button element
-    const buttons = document.querySelectorAll('button');
-    let button: HTMLButtonElement | null = null;
-    buttons.forEach((btn) => {
-      if (btn.textContent?.includes('Download PDF')) {
-        button = btn;
-      }
-    });
+    const buttons = Array.from(document.querySelectorAll('button'));
+    const button = buttons.find((btn) => btn.textContent?.includes('Download PDF'));
 
-    const originalText = button?.textContent || 'Download PDF';
+    const originalText = button?.textContent ?? 'Download PDF';
 
     try {
-      console.log('Starting PDF generation...');
-
       // Show loading state
       if (button) {
         button.disabled = true;
@@ -183,8 +176,6 @@ export default function SubmissionDetailPage({
 
       // Generate and download PDF on client side
       await downloadSubmissionPDF(submission);
-
-      console.log('PDF generated successfully');
 
       // Small delay before restoring button
       setTimeout(() => {

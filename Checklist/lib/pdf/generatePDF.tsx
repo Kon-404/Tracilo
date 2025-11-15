@@ -4,6 +4,7 @@
  * Generates PDFs in the browser using @react-pdf/renderer
  */
 
+import React from 'react';
 import { pdf } from '@react-pdf/renderer';
 import SubmissionPDF from './SubmissionPDF';
 import { FormSubmission } from '@/types';
@@ -15,7 +16,7 @@ import { FormSubmission } from '@/types';
 export async function downloadSubmissionPDF(submission: FormSubmission): Promise<void> {
   try {
     // Create PDF document
-    const pdfDocument = SubmissionPDF({ submission });
+    const pdfDocument = <SubmissionPDF submission={submission} />;
 
     // Generate blob
     const blob = await pdf(pdfDocument).toBlob();

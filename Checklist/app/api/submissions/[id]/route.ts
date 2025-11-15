@@ -6,7 +6,10 @@
  */
 
 import { NextResponse } from 'next/server';
-import { getSubmissionById, updateSubmission, deleteSubmission } from '@/lib/db';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { cookies } from 'next/headers';
+import { getSubmissionById, updateSubmission, deleteSubmission, canAccessSubmission, canDeleteSubmission } from '@/lib/db';
+import { getUserActiveOrganization } from '@/lib/auth-helpers';
 import { FormSubmission } from '@/types';
 
 export async function GET(
@@ -14,6 +17,42 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const cookieStore = cookies();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value;
+          },
+          set(name: string, value: string, options: CookieOptions) {
+            cookieStore.set({ name, value, ...options });
+          },
+          remove(name: string, options: CookieOptions) {
+            cookieStore.set({ name, value: '', ...options });
+          },
+        },
+      }
+    );
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Verify user has access to this submission
+    const hasAccess = await canAccessSubmission(params.id, user.id);
+    if (!hasAccess) {
+      return NextResponse.json(
+        { error: 'Submission not found or access denied' },
+        { status: 404 }
+      );
+    }
+
     const submission = await getSubmissionById(params.id);
 
     if (!submission) {
@@ -38,6 +77,42 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const cookieStore = cookies();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value;
+          },
+          set(name: string, value: string, options: CookieOptions) {
+            cookieStore.set({ name, value, ...options });
+          },
+          remove(name: string, options: CookieOptions) {
+            cookieStore.set({ name, value: '', ...options });
+          },
+        },
+      }
+    );
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Verify user has access to this submission
+    const hasAccess = await canAccessSubmission(params.id, user.id);
+    if (!hasAccess) {
+      return NextResponse.json(
+        { error: 'Submission not found or access denied' },
+        { status: 404 }
+      );
+    }
+
     const body = await request.json();
 
     // Convert date strings back to Date objects
@@ -70,6 +145,42 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const cookieStore = cookies();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value;
+          },
+          set(name: string, value: string, options: CookieOptions) {
+            cookieStore.set({ name, value, ...options });
+          },
+          remove(name: string, options: CookieOptions) {
+            cookieStore.set({ name, value: '', ...options });
+          },
+        },
+      }
+    );
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Verify user has permission to delete this submission
+    const canDelete = await canDeleteSubmission(params.id, user.id);
+    if (!canDelete) {
+      return NextResponse.json(
+        { error: 'You do not have permission to delete this submission' },
+        { status: 403 }
+      );
+    }
+
     const success = await deleteSubmission(params.id);
 
     if (!success) {

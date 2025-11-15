@@ -5,8 +5,21 @@
  * Mobile-first design with responsive grid layout.
  */
 
+import { Metadata } from 'next';
 import { getAllTemplates } from '@/lib/db';
 import TemplateCard from '@/components/TemplateCard';
+
+export const metadata: Metadata = {
+  title: 'Home - Select a Checklist',
+  description: 'Choose from professional inspection templates for vehicle, solar, and gas installations. Start your compliance check in seconds.',
+  openGraph: {
+    title: 'Checklist Templates - Start Your Inspection',
+    description: 'Choose from professional inspection templates for vehicle, solar, and gas installations.',
+  },
+};
+
+// Enable static generation with revalidation
+export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function HomePage() {
   const allTemplates = await getAllTemplates();

@@ -39,12 +39,10 @@ export async function GET(
 ) {
   // In Next.js 14.2+, params is a Promise that needs to be awaited
   const params = await context.params;
-  console.log('PDF API route called with ID:', params.id);
 
   try {
     // Get submission from storage
     const submission = getSubmissionById(params.id);
-    console.log('Submission found:', !!submission);
 
     if (!submission) {
       return NextResponse.json(

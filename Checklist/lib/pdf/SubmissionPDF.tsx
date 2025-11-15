@@ -42,6 +42,11 @@ function formatAnswerValue(answer: FormAnswer): string {
     return photos.length > 0 ? `${photos.length} photo(s)` : '—';
   }
 
+  // Signatures are handled separately in the component
+  if (fieldType === 'signature') {
+    return value ? 'Signature captured' : '—';
+  }
+
   if (Array.isArray(value)) {
     return value.join(', ');
   }
@@ -159,6 +164,8 @@ const PDFSection: React.FC<{
           ? [answer.value]
           : [];
 
+        const hasSignature = answer.fieldType === 'signature' && answer.value;
+
         return (
           <View key={i} style={styles.field}>
             <Text style={styles.fieldLabel}>{answer.fieldLabel}</Text>
@@ -179,7 +186,7 @@ const PDFSection: React.FC<{
               </View>
             ) : answer.fieldType === 'photo' && photos.length > 0 ? (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
-                {photos.map((photoUrl: string, photoIndex: number) => (
+                {(photos as string[]).map((photoUrl, photoIndex) => (
                   <Image
                     key={photoIndex}
                     src={photoUrl}
@@ -192,6 +199,18 @@ const PDFSection: React.FC<{
                     }}
                   />
                 ))}
+              </View>
+            ) : hasSignature ? (
+              <View style={{ marginTop: 4 }}>
+                <Image
+                  src={answer.value as string}
+                  style={{
+                    width: 200,
+                    height: 100,
+                    border: '1px solid #E5E7EB',
+                    borderRadius: 4,
+                  }}
+                />
               </View>
             ) : (
               <Text

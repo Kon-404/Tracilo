@@ -12,6 +12,7 @@
 import { useState } from 'react';
 import { FormField as FormFieldType } from '@/types';
 import { uploadPhoto } from '@/lib/storage-client';
+import SignatureCanvas from '@/components/SignatureCanvas';
 
 interface FormFieldProps {
   field: FormFieldType;
@@ -319,26 +320,13 @@ export default function FormField({
       }
 
       case 'signature':
-        // Stubbed for MVP - will be implemented with canvas signature pad
         return (
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center bg-gray-50">
-            <svg
-              className="mx-auto h-12 w-12 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-              />
-            </svg>
-            <p className="mt-2 text-sm text-gray-600">
-              Signature capture (coming soon)
-            </p>
-          </div>
+          <SignatureCanvas
+            value={value || ''}
+            onChange={onChange}
+            width={config?.width || 400}
+            height={config?.height || 200}
+          />
         );
 
       default:
